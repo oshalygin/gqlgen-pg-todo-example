@@ -1,0 +1,19 @@
+# gqlgen supports some custom scalars out of the box
+# see: https://github.com/99designs/gqlgen/blob/master/docs/content/reference/scalars.md
+
+# resolves to time.Time
+scalar Time
+
+# resolves to map[string]interface{}
+scalar Map
+
+# resolves to interface{}
+scalar Any
+
+# resolves to the following struct
+# type Upload struct {
+# 	File     io.Reader
+# 	Filename string
+# 	Size     int64
+# }
+scalar Upload
