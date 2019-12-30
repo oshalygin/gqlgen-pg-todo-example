@@ -1,3 +1,3 @@
-module github.com/oshalygin/gqlgen-todo-postgress-example
+module github.com/oshalygin/gqlgen-pg-todo-example
 
 go 1.13
