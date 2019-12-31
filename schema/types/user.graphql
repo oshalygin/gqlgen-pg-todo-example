@@ -1,4 +1,4 @@
-type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.User") {
+type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.User") {
     id: ID!
     email: String!
 
@@ -9,7 +9,7 @@ type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/mo
     updatedAt: Time!
 }
 
-input UserInput @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.UserInput") {
+input UserInput @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.UserInput") {
     email: String!
     firstName: String!
     lastName: String!

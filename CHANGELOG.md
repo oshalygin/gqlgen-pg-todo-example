@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 1.1.0 (December 30, 2019)
+
+- Add Resolvers and Wire Up
+  - The actual models themselves have been updated to point
+    to the appropriate go model(graphql => go).
+  - Resolvers split into their respective entities
+  - Basic wireup of the DB with a pass to the root resolver
+    which will cascade it down to every subsequent resolver.
+
 ## 1.0.3 (December 30, 2019)
 
 - Add Schema Models and Routing

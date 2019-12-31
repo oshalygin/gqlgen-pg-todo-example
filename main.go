@@ -3,9 +3,11 @@ package main
 import (
 	"net/http"
 
-	"github.com/99designs/gqlgen/example/starwars/generated"
 	"github.com/99designs/gqlgen/handler"
 	"github.com/go-chi/chi"
+	"github.com/go-pg/pg/v9"
+	"github.com/oshalygin/gqlgen-pg-todo-example/graph/generated"
+	"github.com/oshalygin/gqlgen-pg-todo-example/resolvers"
 )
 
 const (
@@ -13,13 +15,20 @@ const (
 )
 
 func main() {
+	db := pg.Connect(&pg.Options{
+		User: "postgres",
+	})
+	defer db.Close()
+
 	r := chi.NewRouter()
 
 	// The base path that users would use is POST /graphql which is fairly
 	// idiomatic.
 	r.Route("/graphql", func(r chi.Router) {
 		schema := generated.NewExecutableSchema(generated.Config{
-			//Resolvers:  &resolvers.Resolver{},
+			Resolvers: &resolvers.Resolver{
+				DB: db,
+			},
 			Directives: generated.DirectiveRoot{},
 			Complexity: generated.ComplexityRoot{},
 		})
@@ -28,7 +37,6 @@ func main() {
 			schema,
 			handler.ComplexityLimit(100),
 		)
-		// API Layer
 		r.Post("/", h)
 
 		// This is the UI playground that can be used to interact with the API layer

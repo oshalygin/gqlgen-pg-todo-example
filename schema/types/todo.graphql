@@ -1,4 +1,4 @@
-type Todo @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.Todo") {
+type Todo @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.Todo") {
     id: ID!
     name: String!
 
