@@ -1,7 +1,7 @@
 type Query {
-    todo(id: ID!): Todo
+    todo(id: Int!): Todo
     todos(limit: Int, offset: Int): [Todo!]!
 
-    user(id: ID!): User
+    user(id: Int!): User
     users(limit: Int, offset: Int): [User!]!
 }

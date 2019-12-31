@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.1.1 (December 31, 2019)
+
+- Update GraphQL Models to Int from ID
+  - In the interest of time to not configure and set
+    custom types within gqlgen.yaml(will be done later),
+    the PK values have been updated to Int from ID which
+    GQLGEN defaults to as strings.
+
 ## 1.1.0 (December 30, 2019)
 
 - Add Resolvers and Wire Up

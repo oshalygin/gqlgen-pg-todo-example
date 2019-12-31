@@ -1,5 +1,5 @@
 type Todo @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.Todo") {
-    id: ID!
+    id: Int!
     name: String!
 
     isComplete: Boolean!
@@ -8,6 +8,6 @@ type Todo @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.To
     createdAt: Time!
     updatedAt: Time!
 
-    createdBy: User!
-    updatedBy: User!
+    createdBy: User! @goField(forceResolver: true)
+    updatedBy: User! @goField(forceResolver: true)
 }

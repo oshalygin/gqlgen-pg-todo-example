@@ -1,5 +1,5 @@
 type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.User") {
-    id: ID!
+    id: Int!
     email: String!
 
     firstName: String!
