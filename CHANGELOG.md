@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.1.3 (December 31, 2019)
+
+- Add Database Seed
+  - Addition of scripts that will seed the database
+    with tables and data if that data/tables do
+    not already exist against the todos database.
+
 ## 1.1.2 (December 31, 2019)
 
 - Add Database Creation Step in Makefile
