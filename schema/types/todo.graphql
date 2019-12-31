@@ -1,16 +1,13 @@
-type User
-  @goModel(
-    model: "github.com/oshalygin/gqlgen-pg-todo-example/models/graph.Todo"
-  ) {
-  id: ID!
-  name: String!
+type Todo @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.Todo") {
+    id: ID!
+    name: String!
 
-  isComplete: Boolean!
-  isDeleted: Boolean!
+    isComplete: Boolean!
+    isDeleted: Boolean!
 
-  createdAt: Time!
-  updatedAt: Time!
+    createdAt: Time!
+    updatedAt: Time!
 
-  createdBy: User!
-  updatedBy: User!
+    createdBy: User!
+    updatedBy: User!
 }

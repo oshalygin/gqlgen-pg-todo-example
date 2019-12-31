@@ -1,13 +1,16 @@
-type User
-  @goModel(
-    model: "github.com/oshalygin/gqlgen-pg-todo-example/models/graph.User"
-  ) {
-  id: ID!
-  email: String!
+type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.User") {
+    id: ID!
+    email: String!
 
-  firstName: String!
-  lastName: String!
+    firstName: String!
+    lastName: String!
 
-  createdAt: Time!
-  updatedAt: Time!
+    createdAt: Time!
+    updatedAt: Time!
+}
+
+input UserInput @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.UserInput") {
+    email: String!
+    firstName: String!
+    lastName: String!
 }

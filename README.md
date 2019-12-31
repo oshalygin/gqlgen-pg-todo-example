@@ -22,7 +22,7 @@ The application uses ([GQLGEN](https://gqlgen.com)) to generate statically typed
 1. Generate the Go model that represents the graph model. An example looks like the following:
 
 ```go
-package graph
+package models
 
 import (
 	"time"
@@ -47,7 +47,7 @@ type User struct {
 ```graphql
 type User
   @goModel(
-    model: "github.com/oshalygin/gqlgen-pg-todo-example/models/graph.User"
+    model: "github.com/oshalygin/gqlgen-pg-todo-example/models/models.User"
   ) {
   id: ID!
   email: String!

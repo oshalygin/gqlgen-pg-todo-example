@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.0.3 (December 30, 2019)
+
+- Add Schema Models and Routing
+  - This is a first pass at the schema models
+    definition and general router layout
+    that will coexist in the main call.
+
 ## 1.0.2 (December 30, 2019)
 
 - Add initial application structure
