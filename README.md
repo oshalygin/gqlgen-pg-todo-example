@@ -126,7 +126,43 @@ func NewMiddleware(session *mgo.Session) []func(handler http.Handler) http.Handl
 
 ```
 
-# Limitations
+# Sample Queries 
+
+```graphql
+query {
+  users {
+    id
+    email
+    firstName
+    lastName
+  }
+}
+```
+
+```graphql
+query {
+  user(id:1) {
+    id
+    email
+    firstName
+    lastName
+  }
+}
+```
+
+```graphql
+mutation {
+  userCreate(user: {
+    email:"gandalf@gmail.com", firstName:"Gandalf", lastName:"Wizard"
+  }){
+    id
+    email
+    firstName
+    lastName
+    createdAt
+  }
+}
+```
 
 Will list if I encounter any
 

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.0 (December 31, 2019)
+
+- Add User Resolvers
+  - Addition of user resolvers that will pull user
+    data from a db either by id or a collection.
+  - UserCreate has been implemented as well to allow
+    creation of new users.
+
 ## 1.1.3 (December 31, 2019)
 
 - Add Database Seed

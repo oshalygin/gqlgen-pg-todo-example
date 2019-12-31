@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/99designs/gqlgen/handler"
+	"github.com/fatih/color"
 	"github.com/go-chi/chi"
 	"github.com/go-pg/pg/v9"
+	database "github.com/oshalygin/gqlgen-pg-todo-example/db"
 	"github.com/oshalygin/gqlgen-pg-todo-example/graph/generated"
 	"github.com/oshalygin/gqlgen-pg-todo-example/resolvers"
 )
@@ -14,11 +17,29 @@ const (
 	port = ":8080"
 )
 
+func lineSeparator() {
+	fmt.Println("========")
+}
+
+func startMessage() {
+	lineSeparator()
+	color.Green("Listening on localhost%s\n", port)
+	color.Green("Visit `http://localhost%s/graphql` in your browser\n", port)
+	lineSeparator()
+}
+
 func main() {
+	lineSeparator()
+	// Create the database `todos` manually within postgres
 	db := pg.Connect(&pg.Options{
-		User: "postgres",
+		Database: "todos",
 	})
 	defer db.Close()
+
+	err := database.Seed(db)
+	if err != nil {
+		panic(err)
+	}
 
 	r := chi.NewRouter()
 
@@ -46,5 +67,6 @@ func main() {
 
 	})
 
+	startMessage()
 	panic(http.ListenAndServe(port, r))
 }

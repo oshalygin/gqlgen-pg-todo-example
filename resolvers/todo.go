@@ -8,7 +8,7 @@ import (
 
 type todoResolver struct{ *Resolver }
 
-func (r *queryResolver) Todo(ctx context.Context, id string) (*models.Todo, error) {
+func (r *queryResolver) Todo(ctx context.Context, id int) (*models.Todo, error) {
 	panic("not implemented")
 }
 func (r *queryResolver) Todos(ctx context.Context, limit *int, offset *int) ([]models.Todo, error) {
