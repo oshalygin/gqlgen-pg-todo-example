@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.1.2 (December 31, 2019)
+
+- Add Database Creation Step in Makefile
+  - Users can now initialize the the creation of
+    the todos database from the makefile if they
+    dont have one.
+
 ## 1.1.1 (December 31, 2019)
 
 - Update GraphQL Models to Int from ID

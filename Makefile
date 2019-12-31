@@ -44,6 +44,9 @@ dataloader:
 build:
 	- CGO_ENABLED=0 GOOS=linux go build -a -gcflags='-N -l' -installsuffix cgo -o main .
 
+init:
+	- psql -c "CREATE DATABASE todos"
+
 start:
 	- go run main.go
 
@@ -52,4 +55,4 @@ lint:
 	- golint
 
 
-.PHONY: build patch minor major start gen dataloader
+.PHONY: build patch minor major start gen dataloader init
