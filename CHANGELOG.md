@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.3.0 (January 02, 2020)
+
+- Add Todo Resolvers
+  - Addition of resolvers to pull all todos
+    or a specific one by id.
+  - Sample query provided in README
+
 ## 1.2.1 (January 02, 2020)
 
 - Add User Dataloaders

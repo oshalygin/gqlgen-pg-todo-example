@@ -13,7 +13,10 @@ This project is intended to help newcomers to gqlgen and GraphQL. This isn't mea
 1. **Install [Go 1.13 or greater](https://dl.google.com/go/go1.13.darwin-amd64.pkg)**.
    - The recommended approach is to use the installer to get started.
 2. **Install Postgres**
-   - In the interest of ensuring that you can build/run this application w/o a ton of fuss, 
+   - This varies depending on the environment that you're on and I don't intend for this repository to list the steps necessary in doing.
+3. **Ensure that you have a `todos`** database created
+	 - There's a makefile step already available, `make init` which will create the database if it doesn't already exist
+
 
 # Updating GraphQL Models + CodeGen
 
@@ -160,6 +163,23 @@ mutation {
     firstName
     lastName
     createdAt
+  }
+}
+```
+
+```graphql
+query {
+  todo(id:1) {
+    id
+    name
+    isComplete
+    isDeleted
+    createdAt
+    updatedAt
+    createdBy {
+      firstName
+      lastName
+    }
   }
 }
 ```

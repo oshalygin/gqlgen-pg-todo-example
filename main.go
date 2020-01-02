@@ -8,6 +8,7 @@ import (
 	"github.com/fatih/color"
 	"github.com/go-chi/chi"
 	"github.com/go-pg/pg/v9"
+	"github.com/oshalygin/gqlgen-pg-todo-example/dataloaders"
 	database "github.com/oshalygin/gqlgen-pg-todo-example/db"
 	"github.com/oshalygin/gqlgen-pg-todo-example/graph/generated"
 	"github.com/oshalygin/gqlgen-pg-todo-example/resolvers"
@@ -46,6 +47,9 @@ func main() {
 	// The base path that users would use is POST /graphql which is fairly
 	// idiomatic.
 	r.Route("/graphql", func(r chi.Router) {
+		// Initialize the dataloaders as middleware into our route
+		r.Use(dataloaders.NewMiddleware(db)...)
+
 		schema := generated.NewExecutableSchema(generated.Config{
 			Resolvers: &resolvers.Resolver{
 				DB: db,
