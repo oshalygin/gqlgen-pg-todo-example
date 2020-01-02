@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.2.1 (January 02, 2020)
+
+- Add User Dataloaders
+  - The makefile script has been updated to properly
+    reference the path of the model.
+  - The key type has been redefined as int from string to
+    account for the fact that the IDs are auto incrementing
+    ids in pg.
+  - Middleware created with instructions around extensibility.
+
 ## 1.2.0 (December 31, 2019)
 
 - Add User Resolvers
