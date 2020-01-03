@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.3.1 (January 02, 2020)
+
+- Update Seed
+  - The seed has been updated to try and capture different
+    users that belong to a given todo.
+  - Small bugfix where new todos were created on every prog
+    execution.
+
 ## 1.3.0 (January 02, 2020)
 
 - Add Todo Resolvers

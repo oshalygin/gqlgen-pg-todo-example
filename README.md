@@ -184,6 +184,21 @@ query {
 }
 ```
 
+```graphql
+query {
+  todos {
+    id
+    name
+    isComplete
+    createdBy {
+      firstName
+      lastName
+      email
+    }
+  }
+}
+```
+
 Will list if I encounter any
 
 # Dependencies

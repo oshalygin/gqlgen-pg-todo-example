@@ -127,8 +127,8 @@ func seedTodos(db *pg.DB) error {
 			Name:       "install a k8s cluster inside of another k8s cluster",
 			IsComplete: false,
 			IsDeleted:  false,
-			CreatedBy:  1,
-			UpdatedBy:  1,
+			CreatedBy:  2,
+			UpdatedBy:  2,
 			CreatedAt:  time.Now(),
 			UpdatedAt:  time.Now(),
 		},
@@ -144,7 +144,7 @@ func seedTodos(db *pg.DB) error {
 	}
 
 	for _, model := range todos {
-		if err := db.Select(&models.Todo{ID: model.ID}); err != nil {
+		if err := db.Model(&model).Where("name = ?", model.Name).Select(); err != nil {
 			if err := db.Insert(&model); err != nil {
 				return err
 			}
