@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.7 (January 05, 2020)
+
+- Add MIT License File
+
 ## 1.4.6 (January 05, 2020)
 
 - Update README with PG and run steps
