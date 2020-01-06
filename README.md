@@ -175,7 +175,7 @@ go generate ./...
 
 Depending on what you added you will now get compiler errors in the file `resolvers.go`.  What you see depends on your terminal output or your IDEA.  Here are some examples of unimplemented code:
 
-<img alt="Unimplemented Resolver" src="docs/unimplemented-resolver.png" height="150" width="200" />
+<img alt="Unimplemented Resolver" src="docs/unimplemented-resolver.png" />
 
 ```bash
 # github.com/oshalygin/gqlgen-pg-todo-example/resolvers

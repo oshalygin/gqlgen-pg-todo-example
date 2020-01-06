@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.4 (January 05, 2020)
+
+- Update Resolver Image
+
 ## 1.4.3 (January 05, 2020)
 
 - Extend README with Resolver Guide
