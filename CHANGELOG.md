@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 1.4.0 (January 05, 2020)
+
+- Add Todo Mutations and Resolvers(Complete/Delete)
+  - Addition of resolvers and mutation schema for todo
+    deletion/completion. Ideally the request context carries
+    through WHO is initiating the request but building out jwts
+    and the whole shebang is not necessary in the scope of this
+    example project.
+
 ## 1.3.2 (January 05, 2020)
 
 - Update User Dataloader

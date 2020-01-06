@@ -46,7 +46,10 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		UserCreate func(childComplexity int, user models.UserInput) int
+		TodoComplete func(childComplexity int, id int, updatedBy int) int
+		TodoCreate   func(childComplexity int, todo models.TodoInput) int
+		TodoDelete   func(childComplexity int, id int, updatedBy int) int
+		UserCreate   func(childComplexity int, user models.UserInput) int
 	}
 
 	Query struct {
@@ -78,6 +81,9 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
+	TodoCreate(ctx context.Context, todo models.TodoInput) (*models.Todo, error)
+	TodoComplete(ctx context.Context, id int, updatedBy int) (*models.Todo, error)
+	TodoDelete(ctx context.Context, id int, updatedBy int) (*models.Todo, error)
 	UserCreate(ctx context.Context, user models.UserInput) (*models.User, error)
 }
 type QueryResolver interface {
@@ -105,6 +111,42 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Mutation.todoComplete":
+		if e.complexity.Mutation.TodoComplete == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_todoComplete_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.TodoComplete(childComplexity, args["id"].(int), args["updatedBy"].(int)), true
+
+	case "Mutation.todoCreate":
+		if e.complexity.Mutation.TodoCreate == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_todoCreate_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.TodoCreate(childComplexity, args["todo"].(models.TodoInput)), true
+
+	case "Mutation.todoDelete":
+		if e.complexity.Mutation.TodoDelete == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_todoDelete_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.TodoDelete(childComplexity, args["id"].(int), args["updatedBy"].(int)), true
 
 	case "Mutation.userCreate":
 		if e.complexity.Mutation.UserCreate == nil {
@@ -340,7 +382,11 @@ directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITI
     | FIELD_DEFINITION
 `},
 	&ast.Source{Name: "schema/mutation.graphql", Input: `type Mutation {
-    userCreate(user: UserInput!): User!
+  todoCreate(todo: TodoInput!): Todo!
+  todoComplete(id: Int!, updatedBy: Int!): Todo!
+  todoDelete(id: Int!, updatedBy: Int!): Todo!
+
+  userCreate(user: UserInput!): User!
 }
 `},
 	&ast.Source{Name: "schema/query.graphql", Input: `type Query {
@@ -389,6 +435,11 @@ scalar Upload
     createdBy: User! @goField(forceResolver: true)
     updatedBy: User! @goField(forceResolver: true)
 }
+
+input TodoInput @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.TodoInput") {
+    name: String!
+    createdBy: Int!
+}
 `},
 	&ast.Source{Name: "schema/types/user.graphql", Input: `type User @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/models.User") {
     id: Int!
@@ -412,6 +463,64 @@ input UserInput @goModel(model: "github.com/oshalygin/gqlgen-pg-todo-example/mod
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_todoComplete_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["updatedBy"]; ok {
+		arg1, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["updatedBy"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_todoCreate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 models.TodoInput
+	if tmp, ok := rawArgs["todo"]; ok {
+		arg0, err = ec.unmarshalNTodoInput2githubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodoInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["todo"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_todoDelete_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 int
+	if tmp, ok := rawArgs["updatedBy"]; ok {
+		arg1, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["updatedBy"] = arg1
+	return args, nil
+}
 
 func (ec *executionContext) field_Mutation_userCreate_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -548,6 +657,138 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _Mutation_todoCreate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+		ec.Tracer.EndFieldExecution(ctx)
+	}()
+	rctx := &graphql.ResolverContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_todoCreate_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().TodoCreate(rctx, args["todo"].(models.TodoInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*models.Todo)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_todoComplete(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+		ec.Tracer.EndFieldExecution(ctx)
+	}()
+	rctx := &graphql.ResolverContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_todoComplete_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().TodoComplete(rctx, args["id"].(int), args["updatedBy"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*models.Todo)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_todoDelete(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	ctx = ec.Tracer.StartFieldExecution(ctx, field)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+		ec.Tracer.EndFieldExecution(ctx)
+	}()
+	rctx := &graphql.ResolverContext{
+		Object:   "Mutation",
+		Field:    field,
+		Args:     nil,
+		IsMethod: true,
+	}
+	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_todoDelete_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
+	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().TodoDelete(rctx, args["id"].(int), args["updatedBy"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !ec.HasError(rctx) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*models.Todo)
+	rctx.Result = res
+	ctx = ec.Tracer.StartFieldChildExecution(ctx)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodo(ctx, field.Selections, res)
+}
 
 func (ec *executionContext) _Mutation_userCreate(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	ctx = ec.Tracer.StartFieldExecution(ctx, field)
@@ -2507,6 +2748,30 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj interface{}) (models.TodoInput, error) {
+	var it models.TodoInput
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdBy":
+			var err error
+			it.CreatedBy, err = ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj interface{}) (models.UserInput, error) {
 	var it models.UserInput
 	var asMap = obj.(map[string]interface{})
@@ -2560,6 +2825,21 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
+		case "todoCreate":
+			out.Values[i] = ec._Mutation_todoCreate(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "todoComplete":
+			out.Values[i] = ec._Mutation_todoComplete(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "todoDelete":
+			out.Values[i] = ec._Mutation_todoDelete(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "userCreate":
 			out.Values[i] = ec._Mutation_userCreate(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -3128,6 +3408,20 @@ func (ec *executionContext) marshalNTodo2ᚕgithubᚗcomᚋoshalyginᚋgqlgenᚑ
 	}
 	wg.Wait()
 	return ret
+}
+
+func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodo(ctx context.Context, sel ast.SelectionSet, v *models.Todo) graphql.Marshaler {
+	if v == nil {
+		if !ec.HasError(graphql.GetResolverContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Todo(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNTodoInput2githubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐTodoInput(ctx context.Context, v interface{}) (models.TodoInput, error) {
+	return ec.unmarshalInputTodoInput(ctx, v)
 }
 
 func (ec *executionContext) marshalNUser2githubᚗcomᚋoshalyginᚋgqlgenᚑpgᚑtodoᚑexampleᚋmodelsᚐUser(ctx context.Context, sel ast.SelectionSet, v models.User) graphql.Marshaler {

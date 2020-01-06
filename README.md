@@ -199,7 +199,27 @@ query {
 }
 ```
 
-Will list if I encounter any
+```graphql
+mutation {
+  todoComplete(id: 1, updatedBy: 2) {
+    id
+    name
+    isComplete
+    isDeleted
+    
+    createdBy {
+      firstName
+    }
+    
+    updatedBy {
+      firstName
+    }
+    
+    createdAt
+    updatedAt
+  }
+}
+```
 
 # Dependencies
 

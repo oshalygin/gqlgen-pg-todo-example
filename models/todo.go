@@ -14,3 +14,8 @@ type Todo struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
+
+type TodoInput struct {
+	Name      string `json:"name"`
+	CreatedBy int    `json:"user"`
+}

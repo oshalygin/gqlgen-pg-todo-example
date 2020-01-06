@@ -1,3 +1,7 @@
 type Mutation {
-    userCreate(user: UserInput!): User!
+  todoCreate(todo: TodoInput!): Todo!
+  todoComplete(id: Int!, updatedBy: Int!): Todo!
+  todoDelete(id: Int!, updatedBy: Int!): Todo!
+
+  userCreate(user: UserInput!): User!
 }
