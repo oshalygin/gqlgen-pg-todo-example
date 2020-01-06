@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.5 (January 05, 2020)
+
+- Add TodoResolver Compile time interface checking
+
 ## 1.4.4 (January 05, 2020)
 
 - Update Resolver Image

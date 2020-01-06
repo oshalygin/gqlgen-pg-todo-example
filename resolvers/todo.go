@@ -13,6 +13,9 @@ import (
 
 type todoResolver struct{ *Resolver }
 
+// Assert that todoResolver conforms to the generated.TodoResolver interface
+var _ generated.TodoResolver = (*todoResolver)(nil)
+
 func (r *queryResolver) Todo(ctx context.Context, id int) (*models.Todo, error) {
 	todo := models.Todo{ID: id}
 
