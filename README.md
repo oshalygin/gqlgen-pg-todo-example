@@ -88,27 +88,43 @@ the generated implementation.
 // Create the loader that resembles other loaders in the dataloaders package
 // This is merely an example
 
-func User(session *mgo.Session, w http.ResponseWriter, r *http.Request, next http.Handler) {
+func User(db *pg.DB, w http.ResponseWriter, r *http.Request, next http.Handler) {
 	loader := generated.NewUserLoader(generated.UserLoaderConfig{
 		MaxBatch: 100,
 		Wait:     1 * time.Millisecond,
-		Fetch: func(keys []string) ([]*graph.User, []error) {
-			s := session.Copy()
-			dal := db.UserDAL{}
-			users, err := dal.FindAllByID(s, keys)
+		Fetch: func(keys []int) ([]*models.User, []error) {
+
+			var dbUsers []*models.User
+			// This query does NOT return an array that matches the order of the IN
+			// clause.  Meaning: SELECT * FROM Users where id IN (1,8,3)
+			// will not return users 1, 8, 3 in that order.  This order is VERY important
+			// as that is how the dataloaden library.  Note the ids here are collected via
+			// goroutines and the order is not going to be nicely ordered to match your DB
+			// result query.  Try adding a breakpoint here and looking at the arg(keys) and the
+			// resulting array from the following where query.
+			err := db.Model(&dbUsers).WhereIn("id IN (?)", keys).Select()
 
 			if err != nil {
-				return []*graph.User{}, []error{err}
+				return []*models.User{}, []error{err}
 			}
 
-			graphModels := make([]*graph.User, len(users))
+			// All we're doing here on out is just ordering our
+			// collection to match the argument keys []int collection
+			userKeys := make(map[int]*models.User)
+			users := make([]*models.User, len(keys))
 
-			for i, user := range users {
-				graphModel := user.ToGraph()
-				graphModels[i] = &graphModel
+			for _, user := range dbUsers {
+				userKeys[user.ID] = user
+
 			}
 
-			return graphModels, nil
+			for i, k := range keys {
+				if user, ok := userKeys[k]; ok {
+					users[i] = user
+				}
+			}
+
+			return users, []error{err}
 		},
 	})
 
@@ -122,12 +138,12 @@ func User(session *mgo.Session, w http.ResponseWriter, r *http.Request, next htt
 func NewMiddleware(session *mgo.Session) []func(handler http.Handler) http.Handler {
 	return []func(handler http.Handler) http.Handler{
 		setLoader(session, User),
-		setLoader(session, Building),
     // setLoader(session, YourLoader)
 	}
 }
 
 ```
+Note if you're going to use the make script for dataloader creation, you may consider extending it to take something other than an int for the key(in the case of uuid keys)
 
 # Sample Queries 
 

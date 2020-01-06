@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 1.4.1 (January 05, 2020)
+
+- Update README Dataloader example
+  - The example in the readme was a bit outdated
+    and its best to just copy the code snippet.
+  - Makefile limitation noted.
+
 ## 1.4.0 (January 05, 2020)
 
 - Add Todo Mutations and Resolvers(Complete/Delete)
