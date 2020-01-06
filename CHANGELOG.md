@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.4.2 (January 05, 2020)
+
+- Update Dependencies in README
+  - Addition of dependencies used in the project.
+
 ## 1.4.1 (January 05, 2020)
 
 - Update README Dataloader example

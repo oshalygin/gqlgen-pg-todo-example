@@ -15,8 +15,7 @@ This project is intended to help newcomers to gqlgen and GraphQL. This isn't mea
 2. **Install Postgres**
    - This varies depending on the environment that you're on and I don't intend for this repository to list the steps necessary in doing.
 3. **Ensure that you have a `todos`** database created
-	 - There's a makefile step already available, `make init` which will create the database if it doesn't already exist
-
+   - There's a makefile step already available, `make init` which will create the database if it doesn't already exist
 
 # Updating GraphQL Models + CodeGen
 
@@ -143,9 +142,10 @@ func NewMiddleware(session *mgo.Session) []func(handler http.Handler) http.Handl
 }
 
 ```
+
 Note if you're going to use the make script for dataloader creation, you may consider extending it to take something other than an int for the key(in the case of uuid keys)
 
-# Sample Queries 
+# Sample Queries
 
 ```graphql
 query {
@@ -160,7 +160,7 @@ query {
 
 ```graphql
 query {
-  user(id:1) {
+  user(id: 1) {
     id
     email
     firstName
@@ -171,9 +171,13 @@ query {
 
 ```graphql
 mutation {
-  userCreate(user: {
-    email:"gandalf@gmail.com", firstName:"Gandalf", lastName:"Wizard"
-  }){
+  userCreate(
+    user: {
+      email: "gandalf@gmail.com"
+      firstName: "Gandalf"
+      lastName: "Wizard"
+    }
+  ) {
     id
     email
     firstName
@@ -185,7 +189,7 @@ mutation {
 
 ```graphql
 query {
-  todo(id:1) {
+  todo(id: 1) {
     id
     name
     isComplete
@@ -222,15 +226,15 @@ mutation {
     name
     isComplete
     isDeleted
-    
+
     createdBy {
       firstName
     }
-    
+
     updatedBy {
       firstName
     }
-    
+
     createdAt
     updatedAt
   }
@@ -239,9 +243,13 @@ mutation {
 
 # Dependencies
 
-| **Tech**                                      | **Description**                                                         |
-| --------------------------------------------- | ----------------------------------------------------------------------- |
-| [gqlgen](https://github.com/99designs/gqlgen) | `gqlgen` is a Go library for building GraphQL servers without any fuss. |
+| **Tech**                                      | **Description**                                                                                                              |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [gqlgen](https://github.com/99designs/gqlgen) | `gqlgen` is a Go library for building GraphQL servers without any fuss.                                                      |
+| [color](https://github.com/fatih/color)       | Colorizes text. Who doesn't like colorful stdout?                                                                            |
+| [go-chi](github.com/go-chi/chi)               | This is an http router. Pick your flavor, this is mine.                                                                      |
+| [go-pg](github.com/go-pg/pg/v9)               | This is our fancy Go Postgre ORM. You could write raw SQL queries if you wanted to, but I rather not for this sample project |
+| [yacspin](github.com/theckman/yacspin)        | A nice and simple terminal spinner used during seed steps                                                                    |
 
 # License
 
