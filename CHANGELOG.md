@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 1.3.2 (January 05, 2020)
+
+- Update User Dataloader
+  - The dataloader was not properly configured to
+    account for the fact that the keys array is
+    non-sequential which is what the pg query returns.
+    Because of this, the actual hydration of a user was
+    not valid and would return erroneous data. It is imperative
+    that the keys array matches the return value in terms of ids<==>user.
+
 ## 1.3.1 (January 02, 2020)
 
 - Update Seed
