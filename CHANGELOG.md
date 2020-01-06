@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.4.6 (January 05, 2020)
+
+- Update README with PG and run steps
+
 ## 1.4.5 (January 05, 2020)
 
 - Add TodoResolver Compile time interface checking
