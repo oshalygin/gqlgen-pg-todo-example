@@ -145,6 +145,44 @@ func NewMiddleware(session *mgo.Session) []func(handler http.Handler) http.Handl
 
 Note if you're going to use the make script for dataloader creation, you may consider extending it to take something other than an int for the key(in the case of uuid keys)
 
+# Resolvers
+
+The first step before adding a resolver is to define a new mutation/query or property in your GQL Schema. For example:
+
+```graphql
+todoCreate(todo: TodoInput!): Todo!
+```
+
+Ensure that you actually have a `TodoInput` input type defined:
+
+```graphql
+input TodoInput
+  @goModel(
+    model: "github.com/oshalygin/gqlgen-pg-todo-example/models.TodoInput"
+  ) {
+  name: String!
+  createdBy: Int!
+}
+```
+
+Run the code gen:
+
+```bash
+make gen
+# or
+go generate ./...
+```
+
+Depending on what you added you will now get compiler errors in the file `resolvers.go`.  What you see depends on your terminal output or your IDEA.  Here are some examples of unimplemented code:
+
+<img alt="Unimplemented Resolver" src="docs/unimplemented-resolver.png" height="150" width="200" />
+
+```bash
+# github.com/oshalygin/gqlgen-pg-todo-example/resolvers
+resolvers/resolver.go:14:27: cannot use &mutationResolver literal (type *mutationResolver) as type generated.MutationResolver in return argument:
+	*mutationResolver does not implement generated.MutationResolver (missing TodoComplete method)
+```
+
 # Sample Queries
 
 ```graphql

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.4.3 (January 05, 2020)
+
+- Extend README with Resolver Guide
+  - Additional context added around how to generate a resolver
+    and things to look out for
+
 ## 1.4.2 (January 05, 2020)
 
 - Update Dependencies in README
