@@ -20,7 +20,7 @@ func User(db *pg.DB, w http.ResponseWriter, r *http.Request, next http.Handler) 
 			// This query does NOT return an array that matches the order of the IN
 			// clause.  Meaning: SELECT * FROM Users where id IN (1,8,3)
 			// will not return users 1, 8, 3 in that order.  This order is VERY important
-			// as that is how the dataloaden library.  Note the ids here are collected via
+			// as that is how the dataloaden library resolves and matches objects.  Note the ids here are collected via
 			// goroutines and the order is not going to be nicely ordered to match your DB
 			// result query.  Try adding a breakpoint here and looking at the arg(keys) and the
 			// resulting array from the following where query.

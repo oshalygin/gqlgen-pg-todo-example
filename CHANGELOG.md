@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.4.8 (January 05, 2020)
+
+- Update user dataloader help comment
+  - The help comment was updated to give a little
+    bit more background on how the dataloaden package
+    works and how it resolves objects to keys, its order
+    specific.
+
 ## 1.4.7 (January 05, 2020)
 
 - Add MIT License File
