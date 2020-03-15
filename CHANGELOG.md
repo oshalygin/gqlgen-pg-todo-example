@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.4.9 (March 14, 2020)
+
+- Update GQL Instantiation with latest release
+  - This release updates the way that gqlgen is initialized
+    and how a server is passed to the router.
+  - Consumers should reference the official documentation
+    in PR#1004 regarding query complexity.
+
 ## 1.4.8 (January 05, 2020)
 
 - Update user dataloader help comment

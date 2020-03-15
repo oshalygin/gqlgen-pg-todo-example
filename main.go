@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/99designs/gqlgen/handler"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/extension"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/fatih/color"
 	"github.com/go-chi/chi"
 	"github.com/go-pg/pg/v9"
@@ -58,18 +60,14 @@ func main() {
 			Complexity: generated.ComplexityRoot{},
 		})
 
-		h := handler.GraphQL(
-			schema,
-			handler.ComplexityLimit(100),
-		)
-		r.Post("/", h)
+		srv := handler.NewDefaultServer(schema)
+		srv.Use(extension.FixedComplexityLimit(300))
 
-		// This is the UI playground that can be used to interact with the API layer
-		// http://localhost:8080/graphql
-		playground := handler.Playground("Interactive Playground", "/graphql")
-		r.Get("/", playground)
-
+		r.Handle("/", srv)
 	})
+
+	gqlPlayground := playground.Handler("api-gateway", "/graphql")
+	r.Get("/", gqlPlayground)
 
 	startMessage()
 	panic(http.ListenAndServe(port, r))
